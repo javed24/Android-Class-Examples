@@ -1,7 +1,0 @@
-#Sun Jul 16 15:31:25 PDT 2017
-base.0=/Users/aquib/Documents/Masters/Summer_17/Android_Playground/Homework_Todo/Android-Class-Examples/ToDoList/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_52120ebfe4bf1c4d1104a8dd1f36485318485424
-renamed.1=classes2.dex
-renamed.0=classes.dex
-file.1=/Users/aquib/Documents/Masters/Summer_17/Android_Playground/Homework_Todo/Android-Class-Examples/ToDoList/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_c2d3d96a2e78caee5d90ed8a2ae3a8d20ca7f889/classes.dex
-base.1=/Users/aquib/Documents/Masters/Summer_17/Android_Playground/Homework_Todo/Android-Class-Examples/ToDoList/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_c2d3d96a2e78caee5d90ed8a2ae3a8d20ca7f889
-file.0=/Users/aquib/Documents/Masters/Summer_17/Android_Playground/Homework_Todo/Android-Class-Examples/ToDoList/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_52120ebfe4bf1c4d1104a8dd1f36485318485424/classes.dex
