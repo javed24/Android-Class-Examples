@@ -45,7 +45,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     }
 
     public interface ItemClickListener {
-        void onItemClick(int pos, String description, String duedate, long id);
+        void onItemClick(int pos, String description, String duedate,String category, long id);
     }
 
     public ToDoListAdapter(Cursor cursor, ItemClickListener listener) {
@@ -65,17 +65,20 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView descr;
         TextView due;
+        TextView categoryTV;
         CheckBox checker;
         String duedate;
         String description;
+        String category;
         long id;
 
 
         ItemHolder(View view) {
             super(view);
+            checker = (CheckBox) view.findViewById(R.id.todoCheckBox);
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
-            checker = (CheckBox) view.findViewById(R.id.todoCheckBox);
+            categoryTV = (TextView) view.findViewById(R.id.category);
             view.setOnClickListener(this);
         }
         public void onCheckBoxClicked(View view){
@@ -89,8 +92,11 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
             duedate = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE));
             description = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION));
+            //adding category text to the UI
+            category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
             descr.setText(description);
             due.setText(duedate);
+            categoryTV.setText(category);
             holder.itemView.setTag(id);
 
             checker.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +116,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         @Override
         public void onClick(View v) {
             int pos = getAdapterPosition();
-            listener.onItemClick(pos, description, duedate, id);
+            listener.onItemClick(pos, description, duedate, category, id);
         }
         private void markAsDone(){
             descr.setPaintFlags(descr.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

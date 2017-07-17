@@ -3,22 +3,27 @@ package com.sargent.mark.todolist;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.sargent.mark.todolist.data.Contract;
 import com.sargent.mark.todolist.data.DBHelper;
 
-public class MainActivity extends AppCompatActivity implements AddToDoFragment.OnDialogCloseListener, UpdateToDoFragment.OnUpdateDialogCloseListener{
+public class MainActivity extends AppCompatActivity implements AddToDoFragment.OnDialogCloseListener, UpdateToDoFragment.OnUpdateDialogCloseListener, AdapterView.OnItemSelectedListener{
 
     private RecyclerView rv;
     private FloatingActionButton button;
@@ -64,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         adapter = new ToDoListAdapter(cursor, new ToDoListAdapter.ItemClickListener() {
 
             @Override
-            public void onItemClick(int pos, String description, String duedate, long id) {
+            public void onItemClick(int pos, String description, String duedate, String category, long id) {
                 Log.d(TAG, "item click id: " + id);
                 String[] dateInfo = duedate.split("-");
                 int year = Integer.parseInt(dateInfo[0].replaceAll("\\s",""));
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
 
                 FragmentManager fm = getSupportFragmentManager();
 
-                UpdateToDoFragment frag = UpdateToDoFragment.newInstance(year, month, day, description, id);
+                UpdateToDoFragment frag = UpdateToDoFragment.newInstance(year, month, day, description, category, id);
                 frag.show(fm, "updatetodofragment");
             }
         });
@@ -98,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     }
 
     @Override
-    public void closeDialog(int year, int month, int day, String description) {
-        addToDo(db, description, formatDate(year, month, day));
+    public void closeDialog(int year, int month, int day, String description, String category) {
+        addToDo(db, description, formatDate(year, month, day), category);
         cursor = getAllItems(db);
         adapter.swapCursor(cursor);
     }
@@ -122,10 +127,12 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
         );
     }
 
-    private long addToDo(SQLiteDatabase db, String description, String duedate) {
+    private long addToDo(SQLiteDatabase db, String description, String duedate, String category) {
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION, description);
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE, duedate);
+        //calling cv.put for category to insert into db
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY, category);
         return db.insert(Contract.TABLE_TODO.TABLE_NAME, null, cv);
     }
 
@@ -135,20 +142,64 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     }
 
 
-    private int updateToDo(SQLiteDatabase db, int year, int month, int day, String description, long id){
+    private int updateToDo(SQLiteDatabase db, int year, int month, int day, String description, String category, long id){
 
         String duedate = formatDate(year, month - 1, day);
 
         ContentValues cv = new ContentValues();
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION, description);
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE, duedate);
+        //adding category to database for updating
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY, category);
 
         return db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
     }
 
     @Override
-    public void closeUpdateDialog(int year, int month, int day, String description, long id) {
-        updateToDo(db, year, month, day, description, id);
+    public void closeUpdateDialog(int year, int month, int day, String description, String category, long id) {
+        updateToDo(db, year, month, day, description, category, id);
         adapter.swapCursor(getAllItems(db));
     }
+
+    //menu on the main screen, with spinner
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        MenuItem item = menu.findItem(R.id.category_menu_item);
+        Spinner spinner = (Spinner) MenuItemCompat.getActionView(item);
+        spinner.setOnItemSelectedListener(this);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.menu_item_todo_category_array,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(
+                android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        return true;
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String selectedCategory = parent.getItemAtPosition(position).toString();
+        Log.d(TAG, "$$$ Menu item selected: " + selectedCategory);
+        if ("All".equalsIgnoreCase(selectedCategory)) {
+            adapter.swapCursor(getAllItems(db));
+        } else {
+            adapter.swapCursor(categoryItems(db, selectedCategory));
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+    private Cursor categoryItems(SQLiteDatabase db, String category) {
+        return db.query(Contract.TABLE_TODO.TABLE_NAME, null,
+                Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + "='" + category + "'",
+                null, null, null, Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE);
+    }
+
+
 }
