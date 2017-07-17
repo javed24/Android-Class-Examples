@@ -2,17 +2,16 @@ package com.sargent.mark.todolist;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.sargent.mark.todolist.data.Contract;
-import com.sargent.mark.todolist.data.ToDoItem;
-
-import java.util.ArrayList;
 
 /**
  * Created by mark on 7/4/17.
@@ -66,6 +65,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
     class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView descr;
         TextView due;
+        CheckBox checker;
         String duedate;
         String description;
         long id;
@@ -75,7 +75,11 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             super(view);
             descr = (TextView) view.findViewById(R.id.description);
             due = (TextView) view.findViewById(R.id.dueDate);
+            checker = (CheckBox) view.findViewById(R.id.todoCheckBox);
             view.setOnClickListener(this);
+        }
+        public void onCheckBoxClicked(View view){
+
         }
 
         public void bind(ItemHolder holder, int pos) {
@@ -88,6 +92,19 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             descr.setText(description);
             due.setText(duedate);
             holder.itemView.setTag(id);
+
+            checker.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // do stuff with item id here
+                    Log.d(TAG, "---------->>>>>>>>>>>ITEM ID: " + id);
+                    if(checker.isChecked()) {
+                        markAsDone();
+                    }else{
+                        markAsUnDone();
+                    }
+                }
+            });
         }
 
         @Override
@@ -95,6 +112,12 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
             int pos = getAdapterPosition();
             listener.onItemClick(pos, description, duedate, id);
         }
-    }
+        private void markAsDone(){
+            descr.setPaintFlags(descr.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+        }
+        private void markAsUnDone(){
+            descr.setPaintFlags(descr.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+        }
 
+    }
 }
