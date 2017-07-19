@@ -1,5 +1,6 @@
 package com.sargent.mark.todolist;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 /**
  * Created by mark on 7/5/17.
@@ -57,7 +59,7 @@ public class UpdateToDoFragment extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_adder, container, false);
         toDo = (EditText) view.findViewById(R.id.toDo);
-        dp = (DatePicker) view.findViewById(R.id.datePicker);
+        dp = (DatePicker) view.findViewById(R.id.date_picker);
         add = (Button) view.findViewById(R.id.add);
         //adding the spinner and ArrayAdapter portion
         spinner = (Spinner) view.findViewById(R.id.category_spinner);
@@ -84,6 +86,13 @@ public class UpdateToDoFragment extends DialogFragment {
             public void onClick(View v) {
                 UpdateToDoFragment.OnUpdateDialogCloseListener activity = (UpdateToDoFragment.OnUpdateDialogCloseListener) getActivity();
                 Log.d(TAG, "id: " + id);
+                //adding a toast once updated
+                Context context = getActivity();
+                CharSequence text = "Task: "+toDo.getText().toString() + " Updated";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
                 activity.closeUpdateDialog(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), toDo.getText().toString(), spinner.getSelectedItem().toString(), id);
                 UpdateToDoFragment.this.dismiss();
             }

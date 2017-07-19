@@ -11,8 +11,8 @@ import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 5;
-    private static final String DATABASE_NAME = "items_5_test.db";
+    private static final int DATABASE_VERSION = 6;
+    private static final String DATABASE_NAME = "items_6_test.db";
     private static final String TAG = "dbhelper";
 
     public DBHelper(Context context) {
@@ -26,7 +26,9 @@ public class DBHelper extends SQLiteOpenHelper{
                 Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION + " TEXT NOT NULL, " +
                 Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE + " DATE, " +
                 //adding new columns
-                Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + " TEXT NOT NULL " + "); ";
+                Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + " TEXT NOT NULL, " +
+                Contract.TABLE_TODO.COLUMN_NAME_STATUS + " INTEGER NOT NULL " +
+                "DEFAULT 0); ";
 
         Log.d(TAG, "Create table SQL: " + queryString);
         db.execSQL(queryString);

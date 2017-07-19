@@ -1,5 +1,6 @@
 package com.sargent.mark.todolist;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -39,7 +41,7 @@ public class AddToDoFragment extends DialogFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_to_do_adder, container, false);
         toDo = (EditText) view.findViewById(R.id.toDo);
-        dp = (DatePicker) view.findViewById(R.id.datePicker);
+        dp = (DatePicker) view.findViewById(R.id.date_picker);
         add = (Button) view.findViewById(R.id.add);
         //adding the spinner to the fragment
         spinner = (Spinner) view.findViewById(R.id.category_spinner);
@@ -60,6 +62,14 @@ public class AddToDoFragment extends DialogFragment{
             @Override
             public void onClick(View v) {
                 OnDialogCloseListener activity = (OnDialogCloseListener) getActivity();
+
+                //adding a toast once a task has been added
+                Context context = getActivity();
+                CharSequence text = "Task: "+toDo.getText().toString() + " added!";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
+
                 activity.closeDialog(dp.getYear(), dp.getMonth(), dp.getDayOfMonth(), toDo.getText().toString(), spinner.getSelectedItem().toString());
                 AddToDoFragment.this.dismiss();
             }

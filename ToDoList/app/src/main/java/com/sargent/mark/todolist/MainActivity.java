@@ -1,6 +1,7 @@
 package com.sargent.mark.todolist;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.sargent.mark.todolist.data.Contract;
 import com.sargent.mark.todolist.data.DBHelper;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
 
     private RecyclerView rv;
     private FloatingActionButton button;
-    private DBHelper helper;
+    private static DBHelper helper;
     private Cursor cursor;
     private SQLiteDatabase db;
     ToDoListAdapter adapter;
@@ -98,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
                 Log.d(TAG, "passing id: " + id);
                 removeToDo(db, id);
                 adapter.swapCursor(getAllItems(db));
+                //adding a toast once removed
+
+                Context context = MainActivity.this;
+                CharSequence text = "Task removed";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(context, text, duration);
+                toast.show();
             }
         }).attachToRecyclerView(rv);
     }
@@ -184,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selectedCategory = parent.getItemAtPosition(position).toString();
-        Log.d(TAG, ">>>>>You selected item: " + selectedCategory);
+        Log.d(TAG, "------>>>>>You selected item: " + selectedCategory);
         if ("All".equalsIgnoreCase(selectedCategory)) {
             adapter.swapCursor(getAllItems(db));
         } else {
@@ -196,10 +205,19 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+    //selects the items for a specific category
     private Cursor categoryItems(SQLiteDatabase db, String category) {
         return db.query(Contract.TABLE_TODO.TABLE_NAME, null,
                 Contract.TABLE_TODO.COLUMN_NAME_CATEGORY + "='" + category + "'",
                 null, null, null, Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE);
+    }
+    //updates the status of a task
+    public static void updateTodoStatus(long id, boolean status ){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_STATUS, (status ? 1 : 0));
+       // Log.d(TAG, "Status updated");
+        db.update(Contract.TABLE_TODO.TABLE_NAME, cv, Contract.TABLE_TODO._ID + "=" + id, null);
     }
 
 

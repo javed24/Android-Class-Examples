@@ -3091,10 +3091,10 @@ containing a value of this type.
         public static final int contentPanel=0x7f0e0054;
         public static final int custom=0x7f0e005b;
         public static final int customPanel=0x7f0e005a;
-        public static final int datePicker=0x7f0e0088;
+        public static final int date_picker=0x7f0e0088;
         public static final int decor_content_parent=0x7f0e0068;
         public static final int default_activity_button=0x7f0e004d;
-        public static final int description=0x7f0e008a;
+        public static final int description=0x7f0e008b;
         public static final int design_bottom_sheet=0x7f0e007e;
         public static final int design_menu_item_action_area=0x7f0e0085;
         public static final int design_menu_item_action_area_stub=0x7f0e0084;
@@ -3201,7 +3201,7 @@ containing a value of this type.
         public static final int titleDividerNoCustom=0x7f0e005f;
         public static final int title_template=0x7f0e005d;
         public static final int toDo=0x7f0e0087;
-        public static final int todoCheckBox=0x7f0e008b;
+        public static final int todoCheckBox=0x7f0e008a;
         public static final int top=0x7f0e0036;
         public static final int topPanel=0x7f0e005c;
         public static final int touch_outside=0x7f0e007d;
@@ -3333,12 +3333,13 @@ containing a value of this type.
         public static final int appbar_scrolling_view_behavior=0x7f070022;
         public static final int bottom_sheet_behavior=0x7f070023;
         public static final int character_counter_pattern=0x7f070024;
-        public static final int menu_title=0x7f070025;
-        public static final int password_toggle_content_description=0x7f070026;
-        public static final int path_password_eye=0x7f070027;
-        public static final int path_password_eye_mask_strike_through=0x7f070028;
-        public static final int path_password_eye_mask_visible=0x7f070029;
-        public static final int path_password_strike_through=0x7f07002a;
+        public static final int hint_et=0x7f070025;
+        public static final int menu_title=0x7f070026;
+        public static final int password_toggle_content_description=0x7f070027;
+        public static final int path_password_eye=0x7f070028;
+        public static final int path_password_eye_mask_strike_through=0x7f070029;
+        public static final int path_password_eye_mask_visible=0x7f07002a;
+        public static final int path_password_strike_through=0x7f07002b;
         public static final int search_menu_title=0x7f070013;
         public static final int status_bar_notification_info_overflow=0x7f070014;
     }

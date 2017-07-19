@@ -67,6 +67,7 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         TextView due;
         TextView categoryTV;
         CheckBox checker;
+        boolean status;
         String duedate;
         String description;
         String category;
@@ -92,24 +93,40 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
 
             duedate = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE));
             description = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION));
-            //adding category text to the UI
+            //adding category to the UI and setting the done/undone status
             category = cursor.getString(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY));
+            status = cursor.getInt(cursor.getColumnIndex(Contract.TABLE_TODO.COLUMN_NAME_STATUS))==1;
+            //checking the value of status and marking the checkbox based on that value
+            if(status){
+                checker.setChecked(true);
+            }
+            else{
+                checker.setChecked(false);
+            }
             descr.setText(description);
             due.setText(duedate);
             categoryTV.setText(category);
             holder.itemView.setTag(id);
+            toggleUI();
+
 
             checker.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // do stuff with item id here
+                    //checking the id of the item
                     Log.d(TAG, "---------->>>>>>>>>>>ITEM ID: " + id);
-                    if(checker.isChecked()) {
-                        markAsDone();
-                    }else{
-                        markAsUnDone();
-                    }
+                    //toggling the value of status
+                    status = ! status;
+                    toggleUI();
+
+//                    if(checker.isChecked()) {
+//                        markAsDone();
+//                    }else{
+//                        markAsUnDone();
+//                    }
+                    MainActivity.updateTodoStatus(id, status);
                 }
+
             });
         }
 
@@ -117,6 +134,20 @@ public class ToDoListAdapter extends RecyclerView.Adapter<ToDoListAdapter.ItemHo
         public void onClick(View v) {
             int pos = getAdapterPosition();
             listener.onItemClick(pos, description, duedate, category, id);
+        }
+
+        //toggles the UI with a strikethrough
+        private void toggleUI(){
+            if(status){
+                descr.setPaintFlags(descr.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                due.setPaintFlags(due.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                categoryTV.setPaintFlags(due.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            }
+            else{
+                descr.setPaintFlags(descr.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                due.setPaintFlags(due.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                categoryTV.setPaintFlags(due.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+            }
         }
         private void markAsDone(){
             descr.setPaintFlags(descr.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);

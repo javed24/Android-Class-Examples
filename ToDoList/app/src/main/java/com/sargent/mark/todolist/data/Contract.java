@@ -13,8 +13,8 @@ public class Contract {
 
         public static final String COLUMN_NAME_DESCRIPTION = "description";
         public static final String COLUMN_NAME_DUE_DATE = "duedate";
-        //adding two new columns
+        //adding two new columns for category and status
         public static final String COLUMN_NAME_CATEGORY = "category";
-       // public static final String COLUMN_NAME_STATUS = "status";
+        public static final String COLUMN_NAME_STATUS = "status";
     }
 }

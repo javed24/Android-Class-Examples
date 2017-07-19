@@ -4,19 +4,18 @@
     android:layout_height="wrap_content"
     android:padding="10dp">
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:text="To do description"/>
-
-    <CheckBox android:id="@+id/todoCheckBox"
+    <CheckBox
+        android:id="@+id/todoCheckBox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:onClick="onCheckboxClicked"/>
+        android:onClick="onCheckboxClicked" />
 
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="268dp"
+        android:layout_height="wrap_content"
+        android:text="To do description"
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/dueDate"
@@ -30,4 +29,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"/>
+
 </LinearLayout>
