@@ -770,7 +770,7 @@ int id customPanel 0x7f0e005a
 int id datePicker 0x7f0e0088
 int id decor_content_parent 0x7f0e0068
 int id default_activity_button 0x7f0e004d
-int id description 0x7f0e008b
+int id description 0x7f0e008a
 int id design_bottom_sheet 0x7f0e007e
 int id design_menu_item_action_area 0x7f0e0085
 int id design_menu_item_action_area_stub 0x7f0e0084
@@ -877,7 +877,7 @@ int id title 0x7f0e0050
 int id titleDividerNoCustom 0x7f0e005f
 int id title_template 0x7f0e005d
 int id toDo 0x7f0e0087
-int id todoCheckBox 0x7f0e008a
+int id todoCheckBox 0x7f0e008b
 int id top 0x7f0e0036
 int id topPanel 0x7f0e005c
 int id touch_outside 0x7f0e007d

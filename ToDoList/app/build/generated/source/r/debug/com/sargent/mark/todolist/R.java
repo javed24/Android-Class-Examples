@@ -3094,7 +3094,7 @@ containing a value of this type.
         public static final int datePicker=0x7f0e0088;
         public static final int decor_content_parent=0x7f0e0068;
         public static final int default_activity_button=0x7f0e004d;
-        public static final int description=0x7f0e008b;
+        public static final int description=0x7f0e008a;
         public static final int design_bottom_sheet=0x7f0e007e;
         public static final int design_menu_item_action_area=0x7f0e0085;
         public static final int design_menu_item_action_area_stub=0x7f0e0084;
@@ -3201,7 +3201,7 @@ containing a value of this type.
         public static final int titleDividerNoCustom=0x7f0e005f;
         public static final int title_template=0x7f0e005d;
         public static final int toDo=0x7f0e0087;
-        public static final int todoCheckBox=0x7f0e008a;
+        public static final int todoCheckBox=0x7f0e008b;
         public static final int top=0x7f0e0036;
         public static final int topPanel=0x7f0e005c;
         public static final int touch_outside=0x7f0e007d;

@@ -129,10 +129,11 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
 
     private long addToDo(SQLiteDatabase db, String description, String duedate, String category) {
         ContentValues cv = new ContentValues();
-        cv.put(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION, description);
-        cv.put(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE, duedate);
         //calling cv.put for category to insert into db
         cv.put(Contract.TABLE_TODO.COLUMN_NAME_CATEGORY, category);
+
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_DESCRIPTION, description);
+        cv.put(Contract.TABLE_TODO.COLUMN_NAME_DUE_DATE, duedate);
         return db.insert(Contract.TABLE_TODO.TABLE_NAME, null, cv);
     }
 
@@ -183,7 +184,7 @@ public class MainActivity extends AppCompatActivity implements AddToDoFragment.O
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String selectedCategory = parent.getItemAtPosition(position).toString();
-        Log.d(TAG, "$$$ Menu item selected: " + selectedCategory);
+        Log.d(TAG, ">>>>>You selected item: " + selectedCategory);
         if ("All".equalsIgnoreCase(selectedCategory)) {
             adapter.swapCursor(getAllItems(db));
         } else {
